@@ -1,4 +1,3 @@
-
 import { useParams, Link, useNavigate } from "react-router-dom";
 import api from "../api";
 import { useEffect, useState } from "react";
@@ -12,125 +11,72 @@ function ProductDetails() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  // ========================================
-  // GET CURRENT USER FROM TOKEN
-  // ========================================
-
   const token = localStorage.getItem("accessToken");
 
   let currentUser = null;
 
   if (token) {
     try {
-      currentUser = JSON.parse(
-        atob(token.split(".")[1])
-      );
+      currentUser = JSON.parse(atob(token.split(".")[1]));
     } catch (error) {
       console.error("Invalid token:", error);
     }
   }
 
-  const isSeller =
-    currentUser?.role === "seller";
+  const isSeller = currentUser?.role === "seller";
 
-
-  // ========================================
-  // FETCH PRODUCT
-  // ========================================
-
+  //fetch product
   useEffect(() => {
     const fetchProduct = async () => {
       try {
-        const accessToken =
-          localStorage.getItem("accessToken");
+        const accessToken = localStorage.getItem("accessToken");
 
-        const response = await api.get(
-          `/api/products/${id}`,
-          {
-            headers: {
-              Authorization: `Bearer ${accessToken}`,
-            },
-          }
-        );
+        const response = await api.get(`/api/products/${id}`, {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        });
 
-        console.log(
-          "Single product response:",
-          response.data
-        );
+        console.log("Single product response:", response.data);
 
-        setProduct(
-          response.data.data || response.data
-        );
+        setProduct(response.data.data || response.data);
 
         setLoading(false);
-
       } catch (error) {
-        console.error(
-          "Error fetching product:",
-          error
-        );
+        console.error("Error fetching product:", error);
 
-        console.log(
-          "Backend error:",
-          error.response?.data
-        );
+        console.log("Backend error:", error.response?.data);
 
-        setError(
-          "Failed to fetch product details."
-        );
+        setError("Failed to fetch product details.");
 
         setLoading(false);
       }
     };
 
     fetchProduct();
-
   }, [id]);
-
-
-  // ========================================
-  // LOADING
-  // ========================================
 
   if (loading) {
     return (
       <div className="page">
         <div className="container">
-          <h2>
-            Loading product details...
-          </h2>
+          <h2>Loading product details...</h2>
         </div>
       </div>
     );
   }
-
-
-  // ========================================
-  // ERROR
-  // ========================================
 
   if (error || !product) {
     return (
       <div className="page">
         <div className="container">
+          <h2>Product not found</h2>
 
-          <h2>
-            Product not found
-          </h2>
-
-          <Link to="/products">
-            ← Back to Products
-          </Link>
-
+          <Link to="/products">← Back to Products</Link>
         </div>
       </div>
     );
   }
-
-
-  // ========================================
-  // CHECK PRODUCT OWNER
-  // ========================================
 
   const productOwnerId =
     typeof product.createdBy === "object"
@@ -138,24 +84,14 @@ function ProductDetails() {
       : product.createdBy;
 
   const isOwner =
-    isSeller &&
-    productOwnerId?.toString() ===
-    currentUser?.user_id?.toString();
-
-
-  // ========================================
-  // ADD TO CART
-  // ========================================
+    isSeller && productOwnerId?.toString() === currentUser?.user_id?.toString();
 
   const addToCart = async () => {
     try {
-      const accessToken =
-        localStorage.getItem("accessToken");
+      const accessToken = localStorage.getItem("accessToken");
 
       if (!accessToken) {
-        toast.error(
-          "Please login to add products to cart"
-        );
+        toast.error("Please login to add products to cart");
         return;
       }
 
@@ -169,226 +105,94 @@ function ProductDetails() {
           headers: {
             Authorization: `Bearer ${accessToken}`,
           },
-        }
+        },
       );
 
-      console.log(
-        "Add to cart response:",
-        response.data
-      );
+      console.log("Add to cart response:", response.data);
 
-      toast.success(
-        "Product added to cart"
-      );
+      toast.success("Product added to cart");
 
       navigate("/cart");
-
     } catch (error) {
-      console.error(
-        "Error adding product to cart:",
-        error
-      );
+      console.error("Error adding product to cart:", error);
 
-      console.log(
-        "Backend error:",
-        error.response?.data
-      );
+      console.log("Backend error:", error.response?.data);
 
       toast.error(
-        error.response?.data?.message ||
-        "Failed to add product to cart"
+        error.response?.data?.message || "Failed to add product to cart",
       );
     }
   };
 
-
-  // ========================================
-  // EDIT PRODUCT
-  // ========================================
-
   const handleEditProduct = () => {
-    navigate(
-      "/seller/products/add",
-      {
-        state: {
-          product,
-          editMode: true,
-        },
-      }
-    );
+    navigate("/seller/products/add", {
+      state: {
+        product,
+        editMode: true,
+      },
+    });
   };
-
-
-  // ========================================
-  // UI
-  // ========================================
 
   return (
     <div className="page">
-
       <div className="container">
-
-        {/* Back Button */}
-
-        <Link to="/products">
-          ← Back to Products
-        </Link>
-
+        <Link to="/products">← Back to Products</Link>
 
         <div className="product-details-page">
-
-
-          {/* =================================
-              PRODUCT IMAGE
-          ================================== */}
-
           <div className="product-details-image">
-
             <img
-              src={
-                `${import.meta.env.VITE_BACKEND_URL}/${product.image}`
-              }
+              src={`${import.meta.env.VITE_BACKEND_URL}/${product.image}`}
               alt={product.name}
             />
-
           </div>
 
-
-          {/* =================================
-              PRODUCT INFORMATION
-          ================================== */}
-
           <div className="product-details-content">
+            <span className="product-category">{product.category}</span>
 
+            <h1>{product.name}</h1>
 
-            {/* Category */}
+            <p>{product.description || "No description provided."}</p>
 
-            <span className="product-category">
-              {product.category}
-            </span>
-
-
-            {/* Product Name */}
-
-            <h1>
-              {product.name}
-            </h1>
-
-
-            {/* Description */}
-
-            <p>
-              {product.description ||
-                "No description provided."}
-            </p>
-
-
-            {/* Price */}
-
-            <h2>
-              ₹
-              {Number(
-                product.price
-              ).toFixed(2)}
-            </h2>
-
-
-            {/* =================================
-                PRODUCT DETAILS
-            ================================== */}
+            <h2>₹{Number(product.price).toFixed(2)}</h2>
 
             <div className="product-details">
-
               <div>
+                <span>Color</span>
 
-                <span>
-                  Color
-                </span>
-
-                <strong>
-                  {product.colour}
-                </strong>
-
+                <strong>{product.colour}</strong>
               </div>
 
-
               <div>
+                <span>Stock</span>
 
-                <span>
-                  Stock
-                </span>
-
-                <strong>
-                  {product.quantity}
-                </strong>
-
+                <strong>{product.quantity}</strong>
               </div>
-
             </div>
-
-
-            {/* =================================
-                STOCK STATUS
-            ================================== */}
 
             <span
               className={
-                product.quantity > 0
-                  ? "stock-badge"
-                  : "stock-badge out"
+                product.quantity > 0 ? "stock-badge" : "stock-badge out"
               }
             >
-              {product.quantity > 0
-                ? "In Stock"
-                : "Out of Stock"}
+              {product.quantity > 0 ? "In Stock" : "Out of Stock"}
             </span>
 
-
-            {/* =================================
-                SELLER OWNS PRODUCT
-                → EDIT BUTTON
-            ================================== */}
-
             {isOwner ? (
-
-              <button
-                className="primary-button"
-                onClick={
-                  handleEditProduct
-                }
-              >
+              <button className="primary-button" onClick={handleEditProduct}>
                 Edit Product
               </button>
-
             ) : (
-
-              /* =================================
-                 CUSTOMER OR OTHER SELLER
-                 → ADD TO CART
-              ================================= */
-
               product.quantity > 0 && (
-
-                <button
-                  className="primary-button"
-                  onClick={addToCart}
-                >
+                <button className="primary-button" onClick={addToCart}>
                   Add to Cart
                 </button>
-
               )
-
             )}
-
           </div>
-
         </div>
-
       </div>
-
     </div>
   );
 }
 
 export default ProductDetails;
-

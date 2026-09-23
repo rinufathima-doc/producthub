@@ -8,14 +8,10 @@ function Home() {
 
   return (
     <div className="home-page">
-
       <section className="hero">
         <div className="container hero-container">
-
           <div className="hero-content">
-            <span className="hero-badge">
-              Simple Product Management
-            </span>
+            <span className="hero-badge">Simple Product Management</span>
 
             <h1>
               Manage your products
@@ -23,51 +19,36 @@ function Home() {
             </h1>
 
             <p>
-              Add, manage and organize your products from one
-              simple and beautiful dashboard.
+              Add, manage and organize your products from one simple and
+              beautiful dashboard.
             </p>
 
             <div className="hero-actions">
-
               {isAdmin && (
-                <Link
-                  to="/add-product"
-                  className="primary-button"
-                >
+                <Link to="/add-product" className="primary-button">
                   Add Your First Product
                 </Link>
               )}
 
-              <Link
-                to="/products"
-                className="secondary-button"
-              >
+              <Link to="/products" className="secondary-button">
                 View Products
               </Link>
-
             </div>
           </div>
 
           <div className="hero-card-wrapper">
             <div className="hero-card">
-
               <div className="hero-card-header">
                 <div>
-                  <span className="small-label">
-                    PRODUCT OVERVIEW
-                  </span>
+                  <span className="small-label">PRODUCT OVERVIEW</span>
                   <h3>Your Products</h3>
                 </div>
 
-                <div className="hero-card-icon">
-                  📦
-                </div>
+                <div className="hero-card-icon">📦</div>
               </div>
 
               <div className="mini-product">
-                <div className="mini-product-image">
-                  👟
-                </div>
+                <div className="mini-product-image">👟</div>
 
                 <div className="mini-product-info">
                   <strong>Running Shoes</strong>
@@ -78,9 +59,7 @@ function Home() {
               </div>
 
               <div className="mini-product">
-                <div className="mini-product-image">
-                  🎧
-                </div>
+                <div className="mini-product-image">🎧</div>
 
                 <div className="mini-product-info">
                   <strong>Wireless Headphones</strong>
@@ -91,9 +70,7 @@ function Home() {
               </div>
 
               <div className="mini-product">
-                <div className="mini-product-image">
-                  ⌚
-                </div>
+                <div className="mini-product-image">⌚</div>
 
                 <div className="mini-product-info">
                   <strong>Smart Watch</strong>
@@ -102,38 +79,32 @@ function Home() {
 
                 <strong>₹199</strong>
               </div>
-
             </div>
           </div>
-
         </div>
       </section>
 
-      {/* Features */}
       <section className="features-section">
         <div className="container">
-
           <div className="section-heading">
             <span>FEATURES</span>
 
             <h2>Everything you need</h2>
 
             <p>
-              Keep your products organized with a simple,
-              intuitive interface.
+              Keep your products organized with a simple, intuitive interface.
             </p>
           </div>
 
           <div className="features-grid">
-
             <div className="feature-card">
               <div className="feature-icon">➕</div>
 
               <h3>Add Products</h3>
 
               <p>
-                Quickly add new products with all the
-                important product information.
+                Quickly add new products with all the important product
+                information.
               </p>
             </div>
 
@@ -143,8 +114,7 @@ function Home() {
               <h3>Manage Products</h3>
 
               <p>
-                View and manage all your products in
-                one convenient location.
+                View and manage all your products in one convenient location.
               </p>
             </div>
 
@@ -154,26 +124,19 @@ function Home() {
               <h3>Persistent Storage</h3>
 
               <p>
-                Your products are stored locally and
-                remain available after refreshing.
+                Your products are stored locally and remain available after
+                refreshing.
               </p>
             </div>
-
           </div>
-
         </div>
       </section>
 
-      {/* CTA */}
       <section className="cta-section">
-
         <div className="container cta-container">
-
           <div>
             <h2>
-              {isAdmin
-                ? "Ready to add a product?"
-                : "Ready to view products?"}
+              {isAdmin ? "Ready to add a product?" : "Ready to view products?"}
             </h2>
 
             <p>
@@ -184,28 +147,18 @@ function Home() {
           </div>
 
           {isAdmin ? (
-            <Link
-              to="/add-product"
-              className="cta-button"
-            >
+            <Link to="/add-product" className="cta-button">
               Add Product →
             </Link>
           ) : (
-            <Link
-              to="/products"
-              className="cta-button"
-            >
+            <Link to="/products" className="cta-button">
               View Products →
             </Link>
           )}
-
         </div>
-
       </section>
-
     </div>
   );
 }
 
 export default Home;
-

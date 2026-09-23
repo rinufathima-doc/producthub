@@ -6,8 +6,7 @@ import toast from "react-hot-toast";
 function ProductList() {
   const location = useLocation();
 
-  const isSellerProducts =
-    location.pathname === "/seller/products";
+  const isSellerProducts = location.pathname === "/seller/products";
 
   const [products, setProducts] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -18,8 +17,7 @@ function ProductList() {
   const [totalPages, setTotalPages] = useState(1);
 
   const [deleteId, setDeleteId] = useState(null);
-  const [showClearConfirmation, setShowClearConfirmation] =
-    useState(false);
+  const [showClearConfirmation, setShowClearConfirmation] = useState(false);
 
   const fetchProducts = async () => {
     try {
@@ -37,14 +35,12 @@ function ProductList() {
         : "/api/products";
 
       const response = await api.get(
-        `${endpoint}?page=${page}&limit=3&search=${encodeURIComponent(
-          search
-        )}`,
+        `${endpoint}?page=${page}&limit=3&search=${encodeURIComponent(search)}`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
           },
-        }
+        },
       );
 
       console.log("GET products response:", response.data);
@@ -57,26 +53,15 @@ function ProductList() {
         setProducts([]);
       }
 
-      setTotalPages(
-        response.data?.pagination?.totalPages || 1
-      );
+      setTotalPages(response.data?.pagination?.totalPages || 1);
     } catch (error) {
-      console.error(
-        "Error fetching products:",
-        error
-      );
+      console.error("Error fetching products:", error);
 
-      console.log(
-        "Backend error:",
-        error.response?.data
-      );
+      console.log("Backend error:", error.response?.data);
 
       setProducts([]);
 
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to fetch products"
-      );
+      toast.error(error.response?.data?.message || "Failed to fetch products");
     } finally {
       setLoading(false);
     }
@@ -88,39 +73,25 @@ function ProductList() {
 
   const handleDelete = async (id) => {
     try {
-      const token =
-        localStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken");
 
-      await api.delete(
-        `/api/products/${id}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await api.delete(`/api/products/${id}`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      toast.success(
-        "Product deleted successfully"
-      );
+      toast.success("Product deleted successfully");
 
       setProducts((previousProducts) =>
-        previousProducts.filter(
-          (product) => product._id !== id
-        )
+        previousProducts.filter((product) => product._id !== id),
       );
 
       setDeleteId(null);
     } catch (error) {
-      console.error(
-        "Error deleting product:",
-        error
-      );
+      console.error("Error deleting product:", error);
 
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to delete product"
-      );
+      toast.error(error.response?.data?.message || "Failed to delete product");
 
       setDeleteId(null);
     }
@@ -132,35 +103,23 @@ function ProductList() {
 
   const confirmClearAll = async () => {
     try {
-      const token =
-        localStorage.getItem("accessToken");
+      const token = localStorage.getItem("accessToken");
 
-      await api.delete(
-        "/api/products",
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      await api.delete("/api/products", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
-      toast.success(
-        "All products deleted successfully"
-      );
+      toast.success("All products deleted successfully");
 
       setProducts([]);
       setShowClearConfirmation(false);
       setPage(1);
     } catch (error) {
-      console.error(
-        "Error deleting all products:",
-        error
-      );
+      console.error("Error deleting all products:", error);
 
-      toast.error(
-        error.response?.data?.message ||
-          "Failed to delete products"
-      );
+      toast.error(error.response?.data?.message || "Failed to delete products");
 
       setShowClearConfirmation(false);
     }
@@ -171,17 +130,11 @@ function ProductList() {
       <div className="page">
         <div className="container">
           <div className="empty-state">
-            <div className="empty-icon">
-              📦
-            </div>
+            <div className="empty-icon">📦</div>
 
-            <h2>
-              Loading products...
-            </h2>
+            <h2>Loading products...</h2>
 
-            <p>
-              Please wait while we load the products.
-            </p>
+            <p>Please wait while we load the products.</p>
           </div>
         </div>
       </div>
@@ -190,46 +143,33 @@ function ProductList() {
 
   return (
     <div className="page">
-
       {deleteId && (
         <div className="confirmation-overlay">
           <div className="confirmation-box">
+            <div className="confirmation-icon">🗑️</div>
 
-            <div className="confirmation-icon">
-              🗑️
-            </div>
-
-            <h2>
-              Delete Product?
-            </h2>
+            <h2>Delete Product?</h2>
 
             <p>
-              Are you sure you want to delete
-              this product?
+              Are you sure you want to delete this product?
               <br />
               This action cannot be undone.
             </p>
 
             <div className="confirmation-actions">
-
               <button
                 className="cancel-delete-button"
-                onClick={() =>
-                  setDeleteId(null)
-                }
+                onClick={() => setDeleteId(null)}
               >
                 Cancel
               </button>
 
               <button
                 className="confirm-delete-button"
-                onClick={() =>
-                  handleDelete(deleteId)
-                }
+                onClick={() => handleDelete(deleteId)}
               >
                 Delete
               </button>
-
             </div>
           </div>
         </div>
@@ -238,29 +178,20 @@ function ProductList() {
       {showClearConfirmation && (
         <div className="confirmation-overlay">
           <div className="confirmation-box">
+            <div className="confirmation-icon">⚠️</div>
 
-            <div className="confirmation-icon">
-              ⚠️
-            </div>
-
-            <h2>
-              Clear All Products?
-            </h2>
+            <h2>Clear All Products?</h2>
 
             <p>
-              Are you sure you want to delete
-              all products?
+              Are you sure you want to delete all products?
               <br />
               This action cannot be undone.
             </p>
 
             <div className="confirmation-actions">
-
               <button
                 className="cancel-delete-button"
-                onClick={() =>
-                  setShowClearConfirmation(false)
-                }
+                onClick={() => setShowClearConfirmation(false)}
               >
                 Cancel
               </button>
@@ -271,73 +202,43 @@ function ProductList() {
               >
                 Clear All
               </button>
-
             </div>
           </div>
         </div>
       )}
 
       <div className="container">
-
         <div className="products-header">
-
           <div>
-            <span className="page-eyebrow">
-              PRODUCT MANAGEMENT
-            </span>
+            <span className="page-eyebrow">PRODUCT MANAGEMENT</span>
 
-            <h1>
-              Products
-            </h1>
+            <h1>Products</h1>
 
-            <p>
-              Manage and view all your products.
-            </p>
+            <p>Manage and view all your products.</p>
           </div>
 
           {isSellerProducts && (
             <div className="products-actions">
-
-              <button
-                className="primary-button"
-                onClick={handleClearAll}
-              >
+              <button className="primary-button" onClick={handleClearAll}>
                 Clear All
               </button>
 
-              <Link
-                to="/seller/products/add"
-                className="primary-button"
-              >
+              <Link to="/seller/products/add" className="primary-button">
                 + Add Product
               </Link>
-
             </div>
           )}
-
         </div>
 
         <div className="products-toolbar">
-
           <div className="product-count">
+            <strong>{products.length}</strong>
 
-            <strong>
-              {products.length}
-            </strong>
-
-            <span>
-              {products.length === 1
-                ? " Product"
-                : " Products"}
-            </span>
-
+            <span>{products.length === 1 ? " Product" : " Products"}</span>
           </div>
 
           <div className="search-box">
-
-            <span>
-              ⌕
-            </span>
+            <span>⌕</span>
 
             <input
               type="text"
@@ -348,37 +249,20 @@ function ProductList() {
                 setPage(1);
               }}
             />
-
           </div>
-
         </div>
 
         {products.length === 0 && search ? (
-
           <div className="empty-state">
+            <div className="empty-icon">🔍</div>
 
-            <div className="empty-icon">
-              🔍
-            </div>
+            <h2>No products found</h2>
 
-            <h2>
-              No products found
-            </h2>
-
-            <p>
-              Try searching with a
-              different keyword.
-            </p>
-
+            <p>Try searching with a different keyword.</p>
           </div>
-
         ) : products.length === 0 ? (
-
           <div className="empty-state">
-
-            <div className="empty-icon">
-              📦
-            </div>
+            <div className="empty-icon">📦</div>
 
             <h2>
               {isSellerProducts
@@ -393,37 +277,25 @@ function ProductList() {
             </p>
 
             {isSellerProducts && (
-              <Link
-                to="/seller/products/add"
-                className="primary-button"
-              >
+              <Link to="/seller/products/add" className="primary-button">
                 Add Your First Product
               </Link>
             )}
-
           </div>
-
         ) : (
-
           <div className="products-grid">
-
             {products.map((product) => (
-
               <Link
                 to={`/product/${product._id}`}
                 className="product-card"
                 key={product._id}
               >
-
                 <div className="product-card-top">
-
                   <div className="product-placeholder">
-
                     <img
                       src={`${import.meta.env.VITE_BACKEND_URL}/${product.image}`}
                       alt={product.name}
                     />
-
                   </div>
 
                   {isSellerProducts && (
@@ -439,55 +311,34 @@ function ProductList() {
                       Delete
                     </button>
                   )}
-
                 </div>
 
                 <div className="product-card-content">
+                  <span className="product-category">{product.category}</span>
 
-                  <span className="product-category">
-                    {product.category}
-                  </span>
-
-                  <h3>
-                    {product.name}
-                  </h3>
+                  <h3>{product.name}</h3>
 
                   <p className="product-description">
-                    {product.description ||
-                      "No description provided."}
+                    {product.description || "No description provided."}
                   </p>
 
                   <div className="product-details">
-
                     <div>
-                      <span>
-                        Colour
-                      </span>
+                      <span>Colour</span>
 
-                      <strong>
-                        {product.colour}
-                      </strong>
+                      <strong>{product.colour}</strong>
                     </div>
 
                     <div>
-                      <span>
-                        Stock
-                      </span>
+                      <span>Stock</span>
 
-                      <strong>
-                        {product.quantity}
-                      </strong>
+                      <strong>{product.quantity}</strong>
                     </div>
-
                   </div>
 
                   <div className="product-card-footer">
-
                     <strong className="product-price">
-                      ₹
-                      {Number(
-                        product.price || 0
-                      ).toFixed(2)}
+                      ₹{Number(product.price || 0).toFixed(2)}
                     </strong>
 
                     <span
@@ -501,29 +352,17 @@ function ProductList() {
                         ? "In Stock"
                         : "Out of Stock"}
                     </span>
-
                   </div>
-
                 </div>
-
               </Link>
-
             ))}
-
           </div>
-
         )}
 
         <div className="pagination">
-
           <button
             onClick={() =>
-              setPage((previousPage) =>
-                Math.max(
-                  previousPage - 1,
-                  1
-                )
-              )
+              setPage((previousPage) => Math.max(previousPage - 1, 1))
             }
             disabled={page === 1}
           >
@@ -536,22 +375,13 @@ function ProductList() {
 
           <button
             onClick={() =>
-              setPage((previousPage) =>
-                Math.min(
-                  previousPage + 1,
-                  totalPages
-                )
-              )
+              setPage((previousPage) => Math.min(previousPage + 1, totalPages))
             }
-            disabled={
-              page === totalPages
-            }
+            disabled={page === totalPages}
           >
             Next →
           </button>
-
         </div>
-
       </div>
     </div>
   );

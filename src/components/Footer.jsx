@@ -4,9 +4,7 @@ import { Link } from "react-router-dom";
 const Footer = () => {
   return (
     <footer className="footer">
-
       <div className="container footer-container">
-
         {/* Brand */}
         <div className="footer-brand">
           <Link to="/" className="footer-logo">
@@ -15,12 +13,11 @@ const Footer = () => {
           </Link>
 
           <p>
-            A simple and modern product management platform
-            for managing your products easily.
+            A simple and modern product management platform for managing your
+            products easily.
           </p>
         </div>
 
-        {/* Quick Links */}
         <div>
           <h4>Quick Links</h4>
 
@@ -33,7 +30,6 @@ const Footer = () => {
           </div>
         </div>
 
-        
         <div>
           <h4>Contact</h4>
 
@@ -43,16 +39,11 @@ const Footer = () => {
             <p>India</p>
           </div>
         </div>
-
       </div>
 
-      {/* Bottom */}
       <div className="footer-bottom">
-        <p>
-          © {new Date().getFullYear()} ProductHub. All rights reserved.
-        </p>
+        <p>© {new Date().getFullYear()} ProductHub. All rights reserved.</p>
       </div>
-
     </footer>
   );
 };

@@ -1,16 +1,154 @@
-# React + Vite
+# ProductHub Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+ProductHub is a React-based frontend for a product management and shopping application. It provides separate functionality for customers and sellers while allowing sellers to also purchase products as customers.
 
-Currently, two official plugins are available:
+## Features
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Customer
 
-## React Compiler
+- Register and login
+- View available products
+- View product details
+- Add products to cart
+- Update cart quantities
+- Remove products from cart
+- Purchase products
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### Seller
 
-## Expanding the ESLint configuration
+- Register and login
+- View products
+- Add products
+- Edit and update products
+- Delete products
+- Manage seller products
+- Purchase products like a customer
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## Tech Stack
+
+- React.js
+- Vite
+- JavaScript
+- HTML5
+- CSS3
+
+## Application Structure
+
+The frontend is organized into reusable components and pages.
+
+```text
+src/
+├── components/
+├── pages/
+│   ├── Home.jsx
+│   ├── Login.jsx
+│   ├── Signup.jsx
+│   ├── ProductList.jsx
+│   ├── ProductDetails.jsx
+│   ├── Cart.jsx
+│   ├── AddProduct.jsx
+│   └── Seller.jsx
+├── App.jsx
+├── main.jsx
+└── index.css
+```
+
+## Application Flow
+
+```text
+User / Seller
+      |
+      v
+Authentication
+      |
+      v
+Product Listing
+      |
+      +------------------+
+      |                  |
+      v                  v
+View Products       Seller Management
+      |                  |
+      v                  +-- Add Product
+   Product               +-- Edit Product
+   Details               +-- Update Product
+      |                  +-- Delete Product
+      v
+     Cart
+      |
+      v
+   Purchase
+```
+
+## Frontend and Backend
+
+The frontend communicates with the ProductHub backend through REST APIs.
+
+The backend handles:
+
+- Authentication
+- User and seller authorization
+- Product management
+- Cart operations
+- Purchasing
+- Database operations
+
+The frontend is responsible for displaying the application interface and interacting with these APIs.
+
+## Authentication
+
+The application uses JWT-based authentication provided by the backend.
+
+After successful registration or login, the frontend receives an access token and uses it when accessing protected backend resources.
+
+User roles determine the functionality available within the application.
+
+## Running Locally
+
+Clone the repository:
+
+```bash
+git clone https://github.com/YOUR-USERNAME/YOUR-FRONTEND-REPOSITORY.git
+```
+
+Navigate to the project:
+
+```bash
+cd my-new-app
+```
+
+Install dependencies:
+
+```bash
+npm install
+```
+
+Start the development server:
+
+```bash
+npm run dev
+```
+
+The application will be available at the local URL provided by Vite.
+
+## Environment Variables
+
+If the frontend uses environment variables, create a `.env` file for local configuration.
+
+For example:
+
+```env
+VITE_API_URL=your_backend_api_url
+```
+
+Do not commit `.env` files or sensitive credentials to GitHub.
+
+## Author
+
+**Rinufathima**
+
+GitHub: https://github.com/rinufathima-doc
+
+## License
+
+This project was developed for learning and development purposes.
