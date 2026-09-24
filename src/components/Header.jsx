@@ -71,7 +71,7 @@ const Header = () => {
         </button>
 
       
-          <nav className="mobile-nav">
+       <nav className={`mobile-nav ${menuOpen ? "open" : ""}`}>
             <Link to="/" onClick={() => setMenuOpen(false)}>
               Home
             </Link>
