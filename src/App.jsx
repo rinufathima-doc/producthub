@@ -17,7 +17,7 @@ import ProductDetails from "./pages/ProductDetails";
 import Signup from "./pages/Signup";
 import Login from "./pages/Login";
 import Cart from "./pages/Cart";
-import Seller from "./pages/Seller";
+import Seller  from "./pages/Seller.jsx";
 
 function App() {
   const [products, setProducts] = useState([]);
